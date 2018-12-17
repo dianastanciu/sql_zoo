@@ -402,32 +402,59 @@ WHERE eteam.coach = 'Fernando Santos'
 
 7.
 ```
-
+SELECT player 
+  FROM goal
+ JOIN game
+  ON goal.matchid = game.id  
+WHERE game.stadium = 'National Stadium, Warsaw'
 ```
 
 8.
 ```
-
+SELECT DISTINCT player
+  FROM game 
+ JOIN goal 
+  ON goal.matchid = game.id 
+WHERE (game.team1 = 'GER' OR game.team2 = 'GER')
+AND (goal.teamid != 'GER')
 ```
 
 9.
 ```
-
+SELECT teamname, COUNT(teamname) as goals
+  FROM eteam 
+ JOIN goal 
+  ON id=teamid
+GROUP BY teamname
 ```
 
 10.
 ```
-
+SELECT stadium, COUNT(player) as goals
+  FROM game
+ JOIN goal
+  ON game.id = goal.matchid
+GROUP BY stadium
 ```
 
 11.
 ```
-
+SELECT matchid, mdate, COUNT(teamid)
+  FROM game 
+ JOIN goal 
+  ON matchid = id 
+WHERE (team1 = 'POL' OR team2 = 'POL')
+GROUP BY matchid, mdate
 ```
 
 12.
 ```
-
+SELECT matchid, mdate, COUNT(teamid)
+  FROM game 
+ JOIN goal 
+  ON matchid = id 
+WHERE teamid = 'GER'
+GROUP BY matchid, mdate
 ```
 
 13.
@@ -439,59 +466,118 @@ WHERE eteam.coach = 'Fernando Santos'
 
 1.
 ```
-
+SELECT id, title
+ FROM movie
+ WHERE yr=1962
 ```
 
 2.
 ```
-
+SELECT yr
+ FROM movie
+ WHERE title = 'Citizen Kane'
 ```
 
 3.
 ```
-
+SELECT id, title, yr
+ FROM movie
+ WHERE title LIKE '%Star Trek%'
+ORDER BY yr
 ```
 
 
 4.
 ```
-
+SELECT id
+ FROM actor
+ WHERE name = 'Glenn Close'
 ```
 
 5.
 ```
-
+SELECT id
+ FROM movie
+ WHERE title = 'Casablanca'
 ```
 
 6.
 ```
-
+SELECT name
+ FROM actor
+JOIN casting
+ ON actor.id = casting.actorid
+WHERE casting.movieid = 11768
 ```
 
 
 7.
 ```
-
+SELECT name
+ FROM actor
+JOIN casting
+ ON actor.id = casting.actorid
+JOIN movie
+ ON movie.id = casting.movieid
+WHERE movie.title = 'Alien'
 ```
 
 8.
 ```
-
+SELECT title
+ FROM movie
+JOIN casting
+ ON movie.id = casting.movieid
+JOIN actor
+ ON casting.actorid = actor.id
+WHERE actor.name = 'Harrison Ford'
 ```
 
 9.
 ```
-
+SELECT title
+ FROM movie
+JOIN casting
+ ON movie.id = casting.movieid
+JOIN actor
+ ON casting.actorid = actor.id
+WHERE actor.name = 'Harrison Ford' AND casting.ord != 1
 ```
 
 10.
 ```
-
+SELECT movie.title, actor.name
+ FROM movie
+JOIN casting
+ ON movie.id = casting.movieid
+JOIN actor
+ ON casting.actorid = actor.id
+WHERE movie.yr = 1962 AND casting.ord = 1
 ```
 
 11.
 ```
 
+SELECT yr, COUNT(title) AS movies
+ FROM movie
+JOIN casting
+ ON movie.id = casting.movieid
+JOIN actor
+ ON casting.actorid = actor.id
+WHERE name = 'John Travolta'
+GROUP BY yr
+HAVING movies = (
+  SELECT MAX(c) FROM (
+    SELECT yr, COUNT(title) AS c 
+      FROM movie
+      JOIN casting
+       ON movie.id = casting.movieid
+      JOIN actor
+       ON casting.actorid = actor.id
+      WHERE name = 'John Travolta'
+      GROUP BY yr
+  ) AS t
+)
 ```
 
 12.
