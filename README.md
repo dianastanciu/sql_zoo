@@ -288,81 +288,115 @@ WHERE name <= ALL(SELECT name FROM world y WHERE x.continent = y.continent)
 
 ```
 
-## 5. Select and count
+## 5. SUM and COUNT
 
 1.
 ```
-
+SELECT SUM(population)
+FROM world
 ```
 
 2.
 ```
-
+SELECT DISTINCT continent
+FROM world
 ```
 
 3.
 ```
-
+SELECT SUM(gdp)
+FROM world
+WHERE continent = 'Africa'
 ```
 
 
 4.
 ```
-
+SELECT COUNT(name)
+FROM world
+WHERE area >= 1000000
 ```
 
 5.
 ```
-
+SELECT SUM(population)
+FROM world
+WHERE name IN ('Estonia', 'Latvia', 'Lithuania')
 ```
 
 6.
 ```
-
+SELECT continent, COUNT(name)
+FROM world
+GROUP BY continent
 ```
 
 
 7.
 ```
-
+SELECT continent, COUNT(name)
+FROM world
+WHERE population >= 10000000
+GROUP BY continent
 ```
 
 8.
 ```
-
+SELECT continent
+FROM world
+GROUP BY continent
+HAVING SUM(population) >= 100000000
 ```
 
 ## 6. Join
 
 1.
 ```
-
+SELECT matchid, player FROM goal 
+  WHERE teamid = 'GER'
 ```
 
 2.
 ```
-
+SELECT id, stadium, team1, team2
+  FROM game
+WHERE id = 1012
 ```
 
 3.
 ```
-
+SELECT player, teamid, stadium, mdate
+  FROM game JOIN goal 
+  ON game.id = goal.matchid
+WHERE goal.teamid = 'GER'
 ```
 
 
 4.
 ```
-
+SELECT team1, team2, player
+  FROM game 
+JOIN goal 
+  ON game.id = goal.matchid
+WHERE goal.player LIKE 'Mario%'
 ```
 
 5.
 ```
-
+SELECT player, teamid, coach, gtime
+  FROM goal 
+ JOIN eteam
+  ON goal.teamid = eteam.id
+WHERE goal.gtime <= 10
 ```
 
 6.
 ```
-
+SELECT game.mdate, eteam.teamname
+  FROM game
+ JOIN eteam
+  ON game.team1 = eteam.id
+WHERE eteam.coach = 'Fernando Santos'
 ```
 
 
