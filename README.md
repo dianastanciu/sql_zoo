@@ -592,7 +592,13 @@ HAVING movies = (
 
 14.
 ```
-
+SELECT movie.title, COUNT(casting.actorid) AS number_of_actors
+ FROM movie
+ JOIN casting
+  ON casting.movieid = movie.id
+WHERE yr = 1978
+GROUP BY movie.title
+ORDER BY number_of_actors DESC, movie.title ASC
 ```
 
 15.
@@ -605,12 +611,17 @@ HAVING movies = (
 
 1.
 ```
-
+SELECT name
+ FROM teacher
+WHERE dept IS NULL
 ```
 
 2.
 ```
-
+SELECT teacher.name, dept.name
+ FROM teacher
+INNER JOIN dept
+ ON teacher.dept = dept.id
 ```
 
 3.
@@ -626,23 +637,32 @@ HAVING movies = (
 
 5.
 ```
-
+SELECT name, COALESCE(mobile, '07986 444 2266') AS phone
+ FROM teacher
 ```
 
 6.
 ```
-
+SELECT teacher.name, COALESCE(dept.name, 'None') AS department_name
+ FROM teacher
+LEFT JOIN dept
+ ON teacher.dept = dept.id
 ```
 
 
 7.
 ```
-
+SELECT COUNT(teacher.name) AS teachers, COUNT(teacher.mobile) AS mobile
+ FROM teacher
 ```
 
 8.
 ```
-
+SELECT dept.name AS department, COUNT(teacher.name) AS staff
+ FROM teacher
+RIGHT JOIN dept
+ ON dept.id = teacher.dept
+GROUP BY dept.name
 ```
 
 9.
@@ -660,12 +680,14 @@ HAVING movies = (
 
 1.
 ```
-
+SELECT COUNT(*) FROM stops
 ```
 
 2.
 ```
-
+SELECT id 
+ FROM stops
+WHERE name = 'Craiglockhart'
 ```
 
 3.
