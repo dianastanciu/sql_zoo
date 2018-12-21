@@ -692,7 +692,10 @@ WHERE name = 'Craiglockhart'
 
 3.
 ```
-
+SELECT stops.id, stops.name FROM route
+INNER JOIN stops
+ON stops.id = route.stop
+WHERE company = 'LRT' AND num = 4
 ```
 
 
