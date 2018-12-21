@@ -587,7 +587,14 @@ HAVING movies = (
 
 13.
 ```
-
+SELECT actor.name FROM actor
+  INNER JOIN casting
+    ON casting.actorid = actor.id
+  INNER JOIN movie
+    ON casting.movieid = movie.id
+WHERE casting.ord = 1
+GROUP BY actor.name
+HAVING COUNT(casting.movieid) >= 30
 ```
 
 14.
