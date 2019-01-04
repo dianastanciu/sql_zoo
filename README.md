@@ -582,7 +582,16 @@ HAVING movies = (
 
 12.
 ```
-
+SELECT title, name
+FROM movie
+  JOIN casting ON (movieid = movie.id AND ord = 1)
+  JOIN actor ON (actorid = actor.id)
+WHERE movie.id IN (
+  SELECT movieid FROM casting
+    WHERE actorid IN (
+       SELECT id FROM actor
+         WHERE name='Julie Andrews')
+)
 ```
 
 13.
@@ -678,12 +687,24 @@ GROUP BY dept.name
 
 9.
 ```
+SELECT teacher.name,
+   CASE WHEN dept.id = 1 OR dept.id = 2 THEN ' Sci'
+        ELSE ' Art'
+   END
+FROM teacher
+ LEFT JOIN dept ON (teacher.dept = dept.id)
 
 ```
 
 10.
 ```
-
+SELECT teacher.name,
+   CASE WHEN dept.id = 1 OR dept.id = 2 THEN ' Sci'
+        WHEN dept.id = 3 THEN ' Art'
+        ELSE ' None'
+   END
+FROM teacher
+ LEFT JOIN dept ON (teacher.dept = dept.id)
 ```
 
 
